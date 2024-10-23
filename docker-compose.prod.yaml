@@ -4,10 +4,7 @@ version: '3.8'
 volumes:
   database-data:
 
-networks:
-  stack:
-    name: stack
-    external: false
+
 
 services:
   database:
@@ -17,8 +14,8 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
     env_file: .env
-    networks:
-      - stack
+   
+  
 
   calcom:
     image: calcom.docker.scarf.sh/calcom/cal.com
@@ -34,10 +31,9 @@ services:
         CALENDSO_ENCRYPTION_KEY: ${CALENDSO_ENCRYPTION_KEY}
         DATABASE_URL: ${DATABASE_URL}
         DATABASE_DIRECT_URL: ${DATABASE_URL}
-      network: stack
+      
     restart: always
-    networks:
-      - stack
+   
    
     env_file: .env
     environment:
@@ -53,9 +49,7 @@ services:
   studio:
     image: calcom.docker.scarf.sh/calcom/cal.com
     restart: always
-    networks:
-      - stack
-    
+       
     env_file: .env
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}
