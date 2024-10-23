@@ -2,17 +2,20 @@
 version: '3.8'
 
 volumes:
-  database-data:
+  supabase-database-data:
 
 services:
-  database:
-    container_name: database
+  supabase-database:
+    container_name: supabase-database
     image: postgres
     restart: always
     volumes:
-      - database-data:/var/lib/postgresql/data/
+      - supabase-database-data:/var/lib/postgresql/data/
     env_file: .env
-   
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}  
   
 
   calcom:
