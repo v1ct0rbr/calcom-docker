@@ -2,15 +2,15 @@
 version: '3.8'
 
 volumes:
-  supabase-database-data:
+  calcom-database-data:
 
 services:
-  supabase-database:
-    container_name: supabase-database
+  calcom-database:
+    container_name: calcom-database
     image: postgres
     restart: always
     volumes:
-      - supabase-database-data:/var/lib/postgresql/data/
+      - calcom-database-data:/var/lib/postgresql/data/
     env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
