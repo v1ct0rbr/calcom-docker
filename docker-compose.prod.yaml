@@ -71,7 +71,7 @@ services:
       - calcom-net
 
 networks:
-  evolution-net:
+  calcom-net:
     name: calcom-net
     driver: bridge
 # END SECTION: Optional use of Prisma Studio.
