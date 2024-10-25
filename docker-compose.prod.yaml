@@ -6,7 +6,6 @@ volumes:
 
 services:
   calcom-database:
-    container_name: calcom-database
     image: postgres:latest
     restart: always
     healthcheck:
