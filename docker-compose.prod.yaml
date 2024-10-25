@@ -72,3 +72,5 @@ services:
 networks:
   calcom-net:
     driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450   # Exemplo de uma opção de driver
