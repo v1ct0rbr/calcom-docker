@@ -7,7 +7,7 @@ volumes:
 services:
   calcom-database:
     container_name: calcom-database
-    image: postgres
+    image: postgres:latest
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
@@ -15,7 +15,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - calcom-database-data:/var/lib/postgresql/data/
+      - calcom-database-data:/var/lib/postgresql/data
     env_file: .env
     environment:
       POSTGRES_USER=${POSTGRES_USER}
