@@ -23,6 +23,8 @@ services:
       POSTGRES_DB=${POSTGRES_DB}
     networks:
       - calcom-net
+    expose:
+      - 5432
 
   calcom:
     image: calcom.docker.scarf.sh/calcom/cal.com
