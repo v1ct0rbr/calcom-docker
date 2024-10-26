@@ -10,7 +10,7 @@ networks:
       com.docker.network.driver.mtu: 1450
 
 services:
-  database:
+  calcom-database:
     image: postgres:latest
     restart: always
     healthcheck:
@@ -31,12 +31,13 @@ services:
     expose:
       - 5432
 
-  calcom:
+  calcom-web:
     image: calcom.docker.scarf.sh/calcom/cal.com
     build:
       context: .
       dockerfile: Dockerfile.test
       args:
+        LICENCE: "${LICENCE}"
         NEXT_PUBLIC_WEBAPP_URL: "${NEXT_PUBLIC_WEBAPP_URL}"
         NEXT_PUBLIC_API_V2_URL: "${NEXT_PUBLIC_API_V2_URL}"
         NEXT_PUBLIC_LICENSE_CONSENT: "${NEXT_PUBLIC_LICENSE_CONSENT}"
@@ -45,6 +46,13 @@ services:
         CALENDSO_ENCRYPTION_KEY: "${CALENDSO_ENCRYPTION_KEY}"
         DATABASE_URL: "${DATABASE_URL}"
         DATABASE_DIRECT_URL: "${DATABASE_URL}"
+        GOOGLE_API_CREDENTIALS: "${GOOGLE_API_CREDENTIALS}"
+        EMAIL_SERVER_HOST: "${EMAIL_SERVER_HOST}"
+        EMAIL_SERVER_PORT: "${EMAIL_SERVER_PORT}"
+        EMAIL_SERVER_USER: "${EMAIL_SERVER_USER}"
+        EMAIL_SERVER_PASSWORD: "${EMAIL_SERVER_PASSWORD}"
+        EMAIL_FROM: "${EMAIL_FROM}"
+        NODE_ENV: "${NODE_ENV}"
     restart: always
     networks:
       - calcom-net
@@ -54,7 +62,7 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}"
       DATABASE_DIRECT_URL: "${DATABASE_URL}"
     depends_on:
-      - database
+      - calcom-database
 ##RUN yarn db-deploy
 #RUN yarn --cwd packages/prisma seed-app-store
     command: 
@@ -66,7 +74,7 @@ services:
       - seed-app-store
 
 
-  studio:
+  calcom-studio:
     image: calcom.docker.scarf.sh/calcom/cal.com
     restart: always
     networks:
@@ -77,7 +85,7 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}"
       DATABASE_DIRECT_URL: "${DATABASE_URL}"
     depends_on:
-      - database
+      - calcom-database
     command:
       - npx
       - prisma
